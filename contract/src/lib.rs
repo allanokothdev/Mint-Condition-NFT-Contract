@@ -17,8 +17,6 @@ pub struct Contract {
     metadata: LazyOption<NFTContractMetadata>,
 }
 
-const MINT_CONDITION_ICON: &str = "";
-
 #[derive(BorshSerialize, BorshStorageKey)]
 enum StorageKey {
     NonFungibleToken,
@@ -63,7 +61,7 @@ impl Contract {
             metadata: LazyOption::new(StorageKey::Metadata, Some(&metadata)),
         }
     }
-    
+
     /// `self.tokens.mint` will enforce `predecessor_account_id` to equal the `owner_id` given in
     /// initialization call to `new`.
     #[payable]
@@ -73,7 +71,7 @@ impl Contract {
         receiver_id: AccountId,
         token_metadata: TokenMetadata,
     ) -> Token {
-        self.tokens.mint(token_id, receiver_id, Some(token_metadata))
+        self.tokens.internal_mint(token_id, receiver_id, Some(token_metadata))
     }
 }
 
@@ -109,8 +107,8 @@ mod tests {
 
     fn sample_token_metadata() -> TokenMetadata {
         TokenMetadata {
-            title: Some("Olympus Mons".into()),
-            description: Some("The tallest mountain in the charted solar system".into()),
+            title: Some("Mint Condition".into()),
+            description: Some("The best educational startup from Zimbambwe".into()),
             media: None,
             media_hash: None,
             copies: Some(1u64),
