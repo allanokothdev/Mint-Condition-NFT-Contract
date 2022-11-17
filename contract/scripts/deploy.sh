@@ -1,5 +1,4 @@
 #!/bin/bash 
-
 source ./scripts/setting.conf
 
 near delete $SUB_ACCOUNT $MASTER_ACCOUNT 
